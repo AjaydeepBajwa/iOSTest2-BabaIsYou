@@ -59,7 +59,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (self.wallStopRuleString == "wall is stop"){
             self.baba.physicsBody?.collisionBitMask = 30  // 14+16
         }
-        
+        if (self.wallStopRuleString == ""){
+            self.baba.physicsBody?.collisionBitMask = 14  // 14+16
+            
+        }
         print("Collision mask of baba: \(self.baba.physicsBody?.collisionBitMask)")
         
     }
