@@ -170,7 +170,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.wallWinRuleString = ""
             }
             
-            
         }
         //check if flag block is connected to isBlock on left
         if (thingBlockAcceptableXRange.contains(self.flagBlock.position.x))&&(BlockAcceptableYRange.contains(self.flagBlock.position.y)){
@@ -196,18 +195,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
         }
+            
+            //check if stopBlock is connected to isBlock on right
             if (resultBlockAcceptableXRange.contains(self.stopBlock.position.x))&&(BlockAcceptableYRange.contains(self.stopBlock.position.y)){
                 
+                //check if wallBlock is connected to isBlock on left
                 if (thingBlockAcceptableXRange.contains(self.wallBlock.position.x))&&(BlockAcceptableYRange.contains(self.wallBlock.position.y)){
                     
                     print("Wall is stop Rule is Active")
                     self.wallStopRuleString = "wall is stop"
                 }
+                    
                 else{
                     print("Wall is stop Rule is not active")
                     self.wallStopRuleString = ""
                 }
-                
+                //check if flagBlock is connected to isBlock on left
                 if (thingBlockAcceptableXRange.contains(self.flagBlock.position.x))&&(BlockAcceptableYRange.contains(self.flagBlock.position.y)){
                     print("Flag is stop Rule Active")
                     self.flagStopRuleString = "flag is stop"
@@ -221,6 +224,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //check if win block is connected to isBlock on right
             if (resultBlockAcceptableXRange.contains(self.winBlock.position.x))&&(BlockAcceptableYRange.contains(self.winBlock.position.y)){
                 
+                //check if wallBlock is connected to isBlock on left
                 if (thingBlockAcceptableXRange.contains(self.wallBlock.position.x))&&(BlockAcceptableYRange.contains(self.wallBlock.position.y)){
                     print("Wall is win rule is Active")
                     self.wallWinRuleString = "wall is win"
@@ -229,7 +233,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                     print("Wall is win rule is not active")
                     self.wallWinRuleString = ""
                 }
-                
+                //check if flagBlock is connected to isBlock on left
                 if (thingBlockAcceptableXRange.contains(self.flagBlock.position.x))&&(BlockAcceptableYRange.contains(self.flagBlock.position.y)){
                     print("Flag is win Rule Active")
                     self.flagWinRuleString = "flag is win"
@@ -279,10 +283,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.removeAllChildren()
             self.removeAllActions()
 
+            print("Restarted")
             //Present the scene again
             let scene = SKScene(fileNamed: "GameScene")
             scene!.scaleMode = .aspectFill
             view!.presentScene(scene)
+            
     
         }
         print("x of 'wallBlock' : \(self.wallBlock.position.x)")
