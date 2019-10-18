@@ -86,10 +86,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func changeCollisionMask(){
         if (self.wallStopRuleString == "wall is stop"){
-            self.baba.physicsBody?.collisionBitMask = 22  // 14+16
+            self.baba.physicsBody?.collisionBitMask = 22  // 6+16
         }
         if (self.wallStopRuleString == ""){
-            self.baba.physicsBody?.collisionBitMask = 14  // 14+16
+            self.baba.physicsBody?.collisionBitMask = 14  
         }
         if (self.flagStopRuleString == "flag is stop"){
             self.baba.physicsBody?.collisionBitMask = 14
@@ -102,9 +102,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func checkWallWinCondition(){
         if (self.wallWinRuleString == "wall is win"){
             self.congratsMessage = SKLabelNode(text: "Congratulations, You Won!")
-            self.congratsMessage.fontSize = 30
+            self.congratsMessage.fontSize = 50
             self.congratsMessage.fontName = "Avenir"
-            self.congratsMessage.position = CGPoint(x: 0, y: 0)
+            self.congratsMessage.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
             addChild(self.congratsMessage)
             scene!.view?.isPaused = true
         }
@@ -113,9 +113,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func checkFlagWinCondition(){
         if (self.flagWinRuleString == "flag is win"){
             self.congratsMessage = SKLabelNode(text: "Congratulations, You Won!")
-            self.congratsMessage.fontSize = 64
+            self.congratsMessage.fontSize = 50
             self.congratsMessage.fontName = "Avenir"
-            self.congratsMessage.position = CGPoint(x: 0, y: 0)
+            self.congratsMessage.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
             addChild(self.congratsMessage)
             scene!.view?.isPaused = true
         }
