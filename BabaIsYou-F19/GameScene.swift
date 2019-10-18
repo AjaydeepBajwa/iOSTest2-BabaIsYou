@@ -12,66 +12,116 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
 
     var baba:SKSpriteNode!
+    var flag:SKSpriteNode!
+    var wall:SKSpriteNode!
     var stopBlock:SKSpriteNode!
     var winBlock:SKSpriteNode!
     var wallBlock:SKSpriteNode!
     var flagBlock:SKSpriteNode!
     var isBlock:SKSpriteNode!
     
-    var count = 0
-    let player_speed:CGFloat = 20
+    var congratsMessage:SKLabelNode!
+    var touchCount = 0
+    let baba_speed:CGFloat = 20
     
+    //Strings to store win/stop conditions of thingBlocks i.e walls and flag
     var wallStopRuleString:String = ""
     var wallWinRuleString: String = ""
     var flagStopRuleString:String = ""
     var flagWinRuleString:String = ""
+    
     override func didMove(to view: SKView) {
         self.physicsWorld.contactDelegate = self
         
         self.baba = self.childNode(withName: "baba") as! SKSpriteNode
         
+        self.flag = self.childNode(withName: "flag") as! SKSpriteNode
+        self.enumerateChildNodes(withName: "wall") {
+            (node, stop) in
+            self.wall = node as! SKSpriteNode
+        }
+
         self.stopBlock = self.childNode(withName: "stopblock") as! SKSpriteNode
         self.winBlock = self.childNode(withName: "winblock") as! SKSpriteNode
         self.wallBlock = self.childNode(withName: "wallblock") as! SKSpriteNode
         self.flagBlock = self.childNode(withName: "flagblock") as! SKSpriteNode
         self.isBlock = self.childNode(withName: "isblock") as! SKSpriteNode
-        
-//        self.baba.physicsBody = SKPhysicsBody(rectangleOf: self.baba.size)
-//        self.baba.physicsBody?.categoryBitMask = 1
-//        self.baba.physicsBody?.collisionBitMask = 6
-//        self.baba.physicsBody?.affectedByGravity = false
-        
+
     }
    
     func didBegin(_ contact: SKPhysicsContact) {
+        
+        let nodeA = contact.bodyA.node
+        let nodeB = contact.bodyB.node
+        
+        if (nodeA == nil || nodeB == nil) {
+            return
+        }
+        
+        if (nodeA!.name == "baba" && nodeB!.name == "wall") {
+            self.checkWallWinCondition()
+        }
+        if (nodeA!.name == "wall" && nodeB!.name == "baba") {
+            self.checkWallWinCondition()
+        }
+        
+        if (nodeA!.name == "baba" && nodeB!.name == "flag") {
+            self.checkFlagWinCondition()
+        
+        }
+        if (nodeA!.name == "flag" && nodeB!.name == "baba") {
+            self.checkFlagWinCondition()
+            
+        }
         print("Something collided!")
+        
     }
     
     override func update(_ currentTime: TimeInterval) {
-        self.collisionRules()
-        self.changeCollisionMask()
+        //self.blockConnectRules
+        //self.changeCollisionMask()
 //        print("x of wall : \(self.wallBlock.position.x)")
 //        print("x of is: \(self.isBlock.position.x)")
-        // Called before each frame is rendered
     }
     
     func changeCollisionMask(){
         if (self.wallStopRuleString == "wall is stop"){
-            self.baba.physicsBody?.collisionBitMask = 30  // 14+16
+            self.baba.physicsBody?.collisionBitMask = 22  // 14+16
         }
         if (self.wallStopRuleString == ""){
             self.baba.physicsBody?.collisionBitMask = 14  // 14+16
-            
         }
+        if (self.flagStopRuleString == "flag is stop"){
+            self.baba.physicsBody?.collisionBitMask = 14
+        }
+        
         print("Collision mask of baba: \(self.baba.physicsBody?.collisionBitMask)")
         
     }
     
-    func checkWinCondition(){
+    func checkWallWinCondition(){
+        if (self.wallWinRuleString == "wall is win"){
+            self.congratsMessage = SKLabelNode(text: "Congratulations, You Won!")
+            self.congratsMessage.fontSize = 30
+            self.congratsMessage.fontName = "Avenir"
+            self.congratsMessage.position = CGPoint(x: 0, y: 0)
+            addChild(self.congratsMessage)
+            scene!.view?.isPaused = true
+        }
         
     }
+    func checkFlagWinCondition(){
+        if (self.flagWinRuleString == "flag is win"){
+            self.congratsMessage = SKLabelNode(text: "Congratulations, You Won!")
+            self.congratsMessage.fontSize = 64
+            self.congratsMessage.fontName = "Avenir"
+            self.congratsMessage.position = CGPoint(x: 0, y: 0)
+            addChild(self.congratsMessage)
+            scene!.view?.isPaused = true
+        }
+    }
     
-    func collisionRules(){
+    func blockConnectRules(){
 
         //Get both of the 'is' Blocks
         self.enumerateChildNodes(withName: "isblock") {
@@ -139,18 +189,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        
-//        if (((self.stopBlock.position.y <= self.isBlock.position.y)&&(self.stopBlock.position.y > self.isBlock.position.y - self.isBlock.size.height*0.4))||((self.stopBlock.position.y >= self.isBlock.position.y)&&(self.stopBlock.position.y < self.isBlock.position.y + self.isBlock.size.height*0.4)))&&(((self.wallBlock.position.y <= self.isBlock.position.y)&&(self.wallBlock.position.y > self.isBlock.position.y - self.isBlock.size.height*0.4))||((self.wallBlock.position.y >= self.isBlock.position.y)&&(self.wallBlock.position.y < self.isBlock.position.y + self.isBlock.size.height*0.4))) {
-//            print("Wall Stop Rule is Active")
-//            self.ruleString = "wall is stop"
-//            
-//        }
-//        else{
-//            self.ruleString = ""
-//        }
         }
-        self.count = self.count + 1
-        print("Count : \(self.count)")
         
     }
     
@@ -162,29 +201,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         let location = mouseTouch!.location(in: self)
         print("touched at x: \(location.x)")
-        
-        // ----------------------------------------------
+
         let nodeTouched = atPoint(location).name
         
         if (nodeTouched == "up") {
             // move up
-            self.baba.position.y = self.baba.position.y + player_speed
+            self.baba.position.y = self.baba.position.y + baba_speed
         }
         else if (nodeTouched == "down") {
             // move down
-            self.baba.position.y = self.baba.position.y - player_speed
+            self.baba.position.y = self.baba.position.y - baba_speed
         }
         else if (nodeTouched == "left") {
             // move left
-            self.baba.position.x = self.baba.position.x - player_speed
+            self.baba.position.x = self.baba.position.x - baba_speed
         }
         else if (nodeTouched == "right") {
             // move right
-            self.baba.position.x = self.baba.position.x + player_speed
+            self.baba.position.x = self.baba.position.x + baba_speed
         }
-        print("x of wall : \(self.wallBlock.position.x)")
-        print("x of is: \(self.isBlock.position.x)")
+        print("x of 'wallBlock' : \(self.wallBlock.position.x)")
+        print("x of 'isBlock': \(self.isBlock.position.x)")
         print("width of is : \(self.isBlock.size.width)")
+        
+        self.blockConnectRules()
+        self.changeCollisionMask()
+        
+        //Number of times the screen is touched.
+        self.touchCount = self.touchCount + 1
+        print("Count : \(self.touchCount)")
         
     }
     
