@@ -110,6 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.congratsMessage = SKLabelNode(text: "Congratulations, You Won!")
             self.congratsMessage.fontSize = 50
             self.congratsMessage.fontName = "Avenir"
+            self.congratsMessage.color = UIColor.red
             self.congratsMessage.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
             addChild(self.congratsMessage)
             scene!.view?.isPaused = true
@@ -121,6 +122,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.congratsMessage = SKLabelNode(text: "Congratulations, You Won!")
             self.congratsMessage.fontSize = 50
             self.congratsMessage.fontName = "Avenir"
+            self.congratsMessage.color = UIColor.red
             self.congratsMessage.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
             addChild(self.congratsMessage)
             scene!.view?.isPaused = true
