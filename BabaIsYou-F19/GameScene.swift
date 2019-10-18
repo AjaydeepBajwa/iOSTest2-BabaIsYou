@@ -130,10 +130,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         
         //Set X coordinate range where the thingBlock (i.e Wall or flag) can be connected to isBlock
-        let thingBlockAcceptableXRange = (isblock.position.x - isblock.size.width*1.5)...(self.isBlock.position.x)
+        let thingBlockAcceptableXRange = (isblock.position.x - isblock.size.width)...(self.isBlock.position.x)
         
         // Set X coordinate range where the resultBlock can be connected to isBlock to get acceptable Rule.
-        let resultBlockAcceptableXRange = (isblock.position.x)...(isblock.position.x + isblock.size.width*1.5)
+        let resultBlockAcceptableXRange = (isblock.position.x)...(isblock.position.x + isblock.size.width)
         
         //Set Y coordinate range in which any block can be sai to be connected to the isBlock
         let BlockAcceptableYRange = (isblock.position.y - isblock.size.height*0.5)...(isblock.position.y + isblock.size.height*0.5)
