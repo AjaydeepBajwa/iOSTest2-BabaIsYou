@@ -137,17 +137,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let isblock = node as! SKSpriteNode
             
         
-        //Set X coordinate range where the thingBlock (i.e Wall or flag) can be connected to isBlock
+        //Set X coordinate range where the thingBlock (i.e Wall or flag) can be connected to isBlock on left
         let thingBlockAcceptableXRange = (isblock.position.x - (isblock.size.width+2))...(self.isBlock.position.x)
         
-        // Set X coordinate range where the resultBlock can be connected to isBlock to get acceptable Rule.
+        // Set X coordinate range where the resultBlock can be connected to isBlock on right to get acceptable Rule.
         let resultBlockAcceptableXRange = (isblock.position.x)...(isblock.position.x + isblock.size.width+2)
         
-        //Set Y coordinate range in which any block can be sai to be connected to the isBlock
+        //Set Y coordinate range in which any block can be said to be connected to the isBlock
         let BlockAcceptableYRange = (isblock.position.y - isblock.size.height*0.5)...(isblock.position.y + isblock.size.height*0.5)
         
             
-            //Check if the wall block is connected to the 'is' block
+            //Check if the wall block is connected to the 'is' block on left
         if (thingBlockAcceptableXRange.contains(self.wallBlock.position.x))&&(BlockAcceptableYRange.contains(self.wallBlock.position.y)){
             
             //check if stop block is connected to the 'is' block on right
@@ -160,7 +160,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.wallStopRuleString = ""
             }
             
-            //check if win block is connected to isBlock
+            //check if win block is connected to isBlock on right
             if (resultBlockAcceptableXRange.contains(self.winBlock.position.x))&&(BlockAcceptableYRange.contains(self.winBlock.position.y)){
                 print("Wall is win rule is Active")
                 self.wallWinRuleString = "wall is win"
@@ -196,6 +196,50 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
             
         }
+            if (resultBlockAcceptableXRange.contains(self.stopBlock.position.x))&&(BlockAcceptableYRange.contains(self.stopBlock.position.y)){
+                
+                if (thingBlockAcceptableXRange.contains(self.wallBlock.position.x))&&(BlockAcceptableYRange.contains(self.wallBlock.position.y)){
+                    
+                    print("Wall is stop Rule is Active")
+                    self.wallStopRuleString = "wall is stop"
+                }
+                else{
+                    print("Wall is stop Rule is not active")
+                    self.wallStopRuleString = ""
+                }
+                
+                if (thingBlockAcceptableXRange.contains(self.flagBlock.position.x))&&(BlockAcceptableYRange.contains(self.flagBlock.position.y)){
+                    print("Flag is stop Rule Active")
+                    self.flagStopRuleString = "flag is stop"
+                }
+                else{
+                    print("Flag is stop Rule is not active")
+                    self.flagStopRuleString = ""
+                }
+            }
+            
+            //check if win block is connected to isBlock on right
+            if (resultBlockAcceptableXRange.contains(self.winBlock.position.x))&&(BlockAcceptableYRange.contains(self.winBlock.position.y)){
+                
+                if (thingBlockAcceptableXRange.contains(self.wallBlock.position.x))&&(BlockAcceptableYRange.contains(self.wallBlock.position.y)){
+                    print("Wall is win rule is Active")
+                    self.wallWinRuleString = "wall is win"
+                }
+                else{
+                    print("Wall is win rule is not active")
+                    self.wallWinRuleString = ""
+                }
+                
+                if (thingBlockAcceptableXRange.contains(self.flagBlock.position.x))&&(BlockAcceptableYRange.contains(self.flagBlock.position.y)){
+                    print("Flag is win Rule Active")
+                    self.flagWinRuleString = "flag is win"
+                }
+                else{
+                    print("Flag is win rule is not active")
+                    self.flagWinRuleString = ""
+                }
+                
+            }
         
         }
         
