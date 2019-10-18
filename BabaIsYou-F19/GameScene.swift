@@ -78,7 +78,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        //self.blockConnectRules
+        //self.activateRules()
         //self.changeCollisionMask()
 //        print("x of wall : \(self.wallBlock.position.x)")
 //        print("x of is: \(self.isBlock.position.x)")
@@ -121,7 +121,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    func blockConnectRules(){
+    func activateRules(){
 
         //Get both of the 'is' Blocks
         self.enumerateChildNodes(withName: "isblock") {
@@ -130,10 +130,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
         
         //Set X coordinate range where the thingBlock (i.e Wall or flag) can be connected to isBlock
-        let thingBlockAcceptableXRange = (isblock.position.x - isblock.size.width)...(self.isBlock.position.x)
+        let thingBlockAcceptableXRange = (isblock.position.x - (isblock.size.width+2))...(self.isBlock.position.x)
         
         // Set X coordinate range where the resultBlock can be connected to isBlock to get acceptable Rule.
-        let resultBlockAcceptableXRange = (isblock.position.x)...(isblock.position.x + isblock.size.width)
+        let resultBlockAcceptableXRange = (isblock.position.x)...(isblock.position.x + isblock.size.width+2)
         
         //Set Y coordinate range in which any block can be sai to be connected to the isBlock
         let BlockAcceptableYRange = (isblock.position.y - isblock.size.height*0.5)...(isblock.position.y + isblock.size.height*0.5)
@@ -144,21 +144,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //check if stop block is connected to the 'is' block on right
             if (resultBlockAcceptableXRange.contains(self.stopBlock.position.x))&&(BlockAcceptableYRange.contains(self.stopBlock.position.y)){
-                print("Wall is stop Rule Active")
+                print("Wall is stop Rule is Active")
                 self.wallStopRuleString = "wall is stop"
             }
             else{
-                print("Wall is stop Rule Deactivated")
+                print("Wall is stop Rule is not active")
                 self.wallStopRuleString = ""
             }
             
             //check if win block is connected to isBlock
             if (resultBlockAcceptableXRange.contains(self.winBlock.position.x))&&(BlockAcceptableYRange.contains(self.winBlock.position.y)){
-                print("Wall is win rule Active")
+                print("Wall is win rule is Active")
                 self.wallWinRuleString = "wall is win"
             }
             else{
-                print("Wall is win rule Deactivated")
+                print("Wall is win rule is not active")
                 self.wallWinRuleString = ""
             }
             
@@ -169,11 +169,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             
             //check if win block is connected to isBlock on right
             if (resultBlockAcceptableXRange.contains(self.winBlock.position.x))&&(BlockAcceptableYRange.contains(self.winBlock.position.y)){
-                print("Flag is win rule Active")
+                print("Flag is win rule is Active")
                 self.flagWinRuleString = "flag is win"
             }
             else{
-                print("Flag is win rule Deactivated")
+                print("Flag is win rule is not active")
                 self.flagWinRuleString = ""
             }
             
@@ -183,7 +183,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 self.flagStopRuleString = "flag is stop"
             }
             else{
-                print("Flag is stop Rule Deactivated")
+                print("Flag is stop Rule is not active")
                 self.flagStopRuleString = ""
             }
             
@@ -224,7 +224,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("x of 'isBlock': \(self.isBlock.position.x)")
         print("width of is : \(self.isBlock.size.width)")
         
-        self.blockConnectRules()
+        self.activateRules()
         self.changeCollisionMask()
         
         //Number of times the screen is touched.
