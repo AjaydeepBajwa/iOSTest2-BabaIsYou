@@ -88,8 +88,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (self.wallStopRuleString == "wall is stop"){
             self.baba.physicsBody?.collisionBitMask = 22  // 6+16
         }
-        if (self.wallStopRuleString == ""){
+        if (self.wallStopRuleString == "")&&(self.flagStopRuleString == "flag is stop"){
             self.baba.physicsBody?.collisionBitMask = 14  
+        }
+        if (self.wallStopRuleString == "wall is stop")&&(self.flagStopRuleString == ""){
+            self.baba.physicsBody?.collisionBitMask = 22
+        }
+        if (self.wallStopRuleString == "")&&(self.flagStopRuleString == ""){
+            self.baba.physicsBody?.collisionBitMask = 6
         }
         if (self.flagStopRuleString == "flag is stop"){
             self.baba.physicsBody?.collisionBitMask = 14
