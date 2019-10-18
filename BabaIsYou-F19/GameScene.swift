@@ -110,7 +110,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.congratsMessage = SKLabelNode(text: "Congratulations, You Won!")
             self.congratsMessage.fontSize = 50
             self.congratsMessage.fontName = "Avenir"
-            self.congratsMessage.color = UIColor.red
+            self.congratsMessage.fontColor = UIColor.red
             self.congratsMessage.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
             addChild(self.congratsMessage)
             scene!.view?.isPaused = true
@@ -122,7 +122,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.congratsMessage = SKLabelNode(text: "Congratulations, You Won!")
             self.congratsMessage.fontSize = 50
             self.congratsMessage.fontName = "Avenir"
-            self.congratsMessage.color = UIColor.red
+            self.congratsMessage.fontColor = UIColor.red
             self.congratsMessage.position = CGPoint(x: self.size.width/2, y: self.size.height/2)
             addChild(self.congratsMessage)
             scene!.view?.isPaused = true
@@ -227,6 +227,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else if (nodeTouched == "right") {
             // move right
             self.baba.position.x = self.baba.position.x + baba_speed
+        }
+        
+        //Click on 'Restart' to restart the level.
+        if (nodeTouched == "restart"){
+            //Remove the Scene Children
+            self.removeAllChildren()
+            self.removeAllActions()
+
+            //Present the scene again
+            let scene = SKScene(fileNamed: "GameScene")
+            scene!.scaleMode = .aspectFill
+            view!.presentScene(scene)
+    
         }
         print("x of 'wallBlock' : \(self.wallBlock.position.x)")
         print("x of 'isBlock': \(self.isBlock.position.x)")
